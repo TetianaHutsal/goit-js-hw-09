@@ -27,5 +27,5 @@ function onStopButtonClick() {
   clearInterval(intervalId);
 }
 
-startBtn.addEventListener('click', onStartBtnClick);
-stopBtn.addEventListener('click', onStopBtnClick);
+startBtn.addEventListener('click', onStartButtonClick);
+stopBtn.addEventListener('click', onStopButtonClick);
