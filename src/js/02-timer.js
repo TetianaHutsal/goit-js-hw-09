@@ -18,7 +18,6 @@ function convertMsToTime(ms) {
   const hoursInMs = minutesInMs * 60;
   const daysInMs = hoursInMs * 24;
 
-
   const days = Math.floor(ms / daysInMs);
   const hours = Math.floor((ms % daysInMs) / hoursInMs);
   const minutes = Math.floor(((ms % daysInMs) % hoursInMs) / minutesInMs);
@@ -27,7 +26,9 @@ function convertMsToTime(ms) {
   return { days, hours, minutes, seconds };
 }
 
-const addLeadingZeros = value => String(value).padStart(2, '0');
+function addLeadingZeros(value) {
+  return String(value).padStart(2, '0');
+}
 
 const options = {
   enableTime: true,
@@ -36,7 +37,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] < new Date()) {
-      Notify.failure('Please choose a date in the future');
+      Notify.failure('Пожалуйста, выберите дату в будущем');
       return;
     }
     startButton.removeAttribute('disabled');
@@ -51,17 +52,12 @@ const options = {
       const timeDiff = selectedDate - now;
       const { days, hours, minutes, seconds } = convertMsToTime(timeDiff);
 
-      daysElement.textContent = days;
+      daysElement.textContent = addLeadingZeros(days);
       hoursElement.textContent = addLeadingZeros(hours);
       minutesElement.textContent = addLeadingZeros(minutes);
       secondsElement.textContent = addLeadingZeros(seconds);
 
-      if (
-        daysElement.textContent === '0' &&
-        hoursElement.textContent === '00' &&
-        minutesElement.textContent === '00' &&
-        secondsElement.textContent === '00'
-      ) {
+      if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
         clearInterval(countdownInterval);
       }
     };
