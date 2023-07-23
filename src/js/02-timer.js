@@ -18,17 +18,16 @@ function convertMsToTime(ms) {
   const hoursInMs = minutesInMs * 60;
   const daysInMs = hoursInMs * 24;
 
+
   const days = Math.floor(ms / daysInMs);
   const hours = Math.floor((ms % daysInMs) / hoursInMs);
   const minutes = Math.floor(((ms % daysInMs) % hoursInMs) / minutesInMs);
-  const seconds = Math.floor(
-    (((ms % daysInMs) % hoursInMs) % minutesInMs) / secondsInMs
-  );
+  const seconds = Math.floor((((ms % daysInMs) % hoursInMs) % minutesInMs) / secondsInMs);
 
   return { days, hours, minutes, seconds };
 }
 
-const addLeadingZero = value => String(value).padStart(2, 0);
+const addLeadingZeros = value => String(value).padStart(2, '0');
 
 const options = {
   enableTime: true,
@@ -51,13 +50,14 @@ const options = {
 
       const timeDiff = selectedDate - now;
       const { days, hours, minutes, seconds } = convertMsToTime(timeDiff);
+
       daysElement.textContent = days;
-      hoursElement.textContent = addLeadingZero(hours);
-      minutesElement.textContent = addLeadingZero(minutes);
-      secondsElement.textContent = addLeadingZero(seconds);
+      hoursElement.textContent = addLeadingZeros(hours);
+      minutesElement.textContent = addLeadingZeros(minutes);
+      secondsElement.textContent = addLeadingZeros(seconds);
 
       if (
-        daysElement.textContent === '00' &&
+        daysElement.textContent === '0' &&
         hoursElement.textContent === '00' &&
         minutesElement.textContent === '00' &&
         secondsElement.textContent === '00'
@@ -66,7 +66,7 @@ const options = {
       }
     };
 
-    const startCountdown = () => {
+    const onClick = () => {
       if (countdownInterval) {
         clearInterval(countdownInterval);
       }
@@ -74,7 +74,7 @@ const options = {
       countdownInterval = setInterval(updateTimerDisplay, 1000);
     };
 
-    startButton.addEventListener('click', startCountdown);
+    startButton.addEventListener('click', onClick);
   },
 };
 
